@@ -1,0 +1,42 @@
+{
+  "name": "netology",
+  "version": "1.0.0",
+  "bin": {
+    "showdate": "./simple_date.js",
+    "game":"./game.js"
+  },
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "ansi-regex": "^5.0.1",
+    "ansi-styles": "^4.3.0",
+    "cliui": "^8.0.1",
+    "color-convert": "^2.0.1",
+    "color-name": "^1.1.4",
+    "emoji-regex": "^8.0.0",
+    "escalade": "^3.1.1",
+    "get-caller-file": "^2.0.5",
+    "is-fullwidth-code-point": "^3.0.0",
+    "require-directory": "^2.1.1",
+    "string-width": "^4.2.3",
+    "strip-ansi": "^6.0.1",
+    "wrap-ansi": "^7.0.0",
+    "y18n": "^5.0.8",
+    "yargs": "^17.6.2",
+    "yargs-parser": "^21.1.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "1": "1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ienjouuu/netology.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ienjouuu/netology/issues"
+  },
+  "homepage": "https://github.com/ienjouuu/netology#readme"
+}
