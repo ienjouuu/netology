@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "bin": {
     "showdate": "./simple_date.js",
-    "game":"./game.js"
+    "game":"./game.js",
+    "game2":"./game1_4.js"
   },
   "description": "",
   "main": "index.js",
