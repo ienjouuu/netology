@@ -2,9 +2,7 @@
   "name": "netology",
   "version": "1.0.0",
   "bin": {
-    "showdate": "./simple_date.js",
-    "game":"./game.js",
-    "game2":"./game1_4.js"
+    "my-app": "./index.js"
   },
   "description": "",
   "main": "index.js",
@@ -26,9 +24,12 @@
     "yargs": "^17.6.2",
     "yargs-parser": "^21.1.1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "dotenv": "^16.0.3"
+  },
   "scripts": {
-    "1": "1"
+    "start": "node index.js",
+    "forecast": "node -r dotenv/config index.js"
   },
   "repository": {
     "type": "git",
