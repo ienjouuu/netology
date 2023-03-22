@@ -1,10 +1,10 @@
 {
-  "name": "netology",
+  "name": "library_netology",
   "version": "1.0.0",
   "bin": {
-    "my-app": "./index.js"
+    "my-app": "index.js"
   },
-  "description": "",
+  "description": "homework",
   "main": "index.js",
   "dependencies": {
     "ansi-regex": "^5.0.1",
@@ -32,14 +32,16 @@
     "nodemon": "^2.0.21"
   },
   "scripts": {
-    "start": "node index.js",
+    "start": "pm2 start index.js",
+    "restart": "pm2 restart index.js",
+    "stop": "pm2 stop all",
     "dev": "nodemon index.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ienjouuu/netology.git"
   },
-  "author": "",
+  "author": "Skvortsov",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/ienjouuu/netology/issues"
