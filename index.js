@@ -16,10 +16,7 @@ class Book {
 }
 
 const stor = {
-    book: [
-         new Book(),
-         new Book()
-    ]
+    book: []
 };
 
 const app = express();
