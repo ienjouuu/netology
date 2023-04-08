@@ -1,0 +1,44 @@
+﻿1.
+PS C:\Users\ienjo\netology> docker pull busybox:latest
+latest: Pulling from library/busybox
+Digest: sha256:b5d6fe0712636ceb7430189de28819e195e8966372edfc2d9409d79402a0dc16
+Status: Image is up to date for busybox:latest
+docker.io/library/busybox:latest
+PS C:\Users\ienjo\netology> docker images
+REPOSITORY   TAG       IMAGE ID       CREATED       SIZE
+busybox      latest    7cfbbec8963d   3 weeks ago   4.86MB
+PS C:\Users\ienjo\netology> docker run --name pinger -it busybox ping netology.ru
+PING netology.ru (188.114.98.224): 56 data bytes
+64 bytes from 188.114.98.224: seq=0 ttl=36 time=8.173 ms
+64 bytes from 188.114.98.224: seq=1 ttl=36 time=7.757 ms
+64 bytes from 188.114.98.224: seq=2 ttl=36 time=6.969 ms
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+PS C:\Users\ienjo\netology> docker -logs
+Unable to parse logging level: ogs
+PS C:\Users\ienjo\netology> docker ps -a
+CONTAINER ID   IMAGE     COMMAND              CREATED              STATUS                          PORTS     NAMES
+371352171bf3   busybox   "ping netology.ru"   About a minute ago   Exited (0) About a minute ago             pinger
+PS C:\Users\ienjo\netology> docker logs -f pinger
+PING netology.ru (188.114.98.224): 56 data bytes
+64 bytes from 188.114.98.224: seq=0 ttl=36 time=8.173 ms
+64 bytes from 188.114.98.224: seq=1 ttl=36 time=7.757 ms
+64 bytes from 188.114.98.224: seq=2 ttl=36 time=6.969 ms
+64 bytes from 188.114.98.224: seq=3 ttl=36 time=6.948 ms
+64 bytes from 188.114.98.224: seq=4 ttl=36 time=9.662 ms
+64 bytes from 188.114.98.224: seq=5 ttl=36 time=7.484 ms
+64 bytes from 188.114.98.224: seq=6 ttl=36 time=6.872 ms
+^C
+--- netology.ru ping statistics ---
+7 packets transmitted, 7 packets received, 0% packet loss
+round-trip min/avg/max = 6.872/7.695/9.662 ms
+PS C:\Users\ienjo\netology> docker rm pinger
+pinger
+PS C:\Users\ienjo\netology> docker ps -a
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+PS C:\Users\ienjo\netology> docker rmi busybox     
+Untagged: busybox:latest
+Untagged: busybox@sha256:b5d6fe0712636ceb7430189de28819e195e8966372edfc2d9409d79402a0dc16
+Deleted: sha256:7cfbbec8963d8f13e6c70416d6592e1cc10f47a348131290a55d43c3acab3fb9
+Deleted: sha256:baacf561cfff825708763ce7ee4a18293716c533e6ece3bd39009a5fb3c804d2
+
+
