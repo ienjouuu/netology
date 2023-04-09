@@ -1,4 +1,4 @@
-﻿1.
+1.
 PS C:\Users\ienjo\netology> docker pull busybox:latest
 latest: Pulling from library/busybox
 Digest: sha256:b5d6fe0712636ceb7430189de28819e195e8966372edfc2d9409d79402a0dc16
@@ -41,4 +41,77 @@ Untagged: busybox@sha256:b5d6fe0712636ceb7430189de28819e195e8966372edfc2d9409d79
 Deleted: sha256:7cfbbec8963d8f13e6c70416d6592e1cc10f47a348131290a55d43c3acab3fb9
 Deleted: sha256:baacf561cfff825708763ce7ee4a18293716c533e6ece3bd39009a5fb3c804d2
 
+2.
+> console.log('Hello,' + `${process.env.name}` + ' ' +  `${process.env.surname}` + '!')
+Hello,Sergei Skvortsov!
+undefined
+> console.log('Hello, ' + `${process.env.name}` + ' ' +  `${process.env.surname}` + '!')
+Hello, Sergei Skvortsov!
+undefined
+>
+(To exit, press Ctrl+C again or Ctrl+D or type .exit)
+>
+PS C:\Users\ienjo\netology> docker stop mynode
+mynode
+PS C:\Users\ienjo\netology> docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+PS C:\Users\ienjo\netology> docker images
+REPOSITORY   TAG       IMAGE ID       CREATED         SIZE
+node         15.14     3d3f41722daf   23 months ago   936MB
+PS C:\Users\ienjo\netology> docker rmi node
+Error: No such image: node
+PS C:\Users\ienjo\netology> docker rmi 3d3f41722daf -f
+Untagged: node:15.14
+Untagged: node@sha256:608bba799613b1ebf754034ae008849ba51e88b23271412427b76d60ae0d0627
+Deleted: sha256:3d3f41722daf1a77c34d6eade6676bbffa2d6a2a21095de2ab0c427a5c942fc9
+PS C:\Users\ienjo\netology> docker images
+REPOSITORY   TAG       IMAGE ID   CREATED   SIZE
+PS C:\Users\ienjo\netology>
 
+3.
+PS C:\Users\ienjo\netology> docker run -d -v C:\Users\ienjo\netology\data:/var/first/data --name first_node -i node:15.14
+3e6cc2a0e85ead38fd95a30810b5a991800fa48a69adce0f1b38528b5fb42c53
+PS C:\Users\ienjo\netology> docker run -d -v C:\Users\ienjo\netology\data:/var/second/data --name second_node -i node:15.14
+b0390e2f34fa6e4abe455229b150602f66e150931a70d524d753107abd98c94d
+PS C:\Users\ienjo\netology> docker exec -it first_node ls /var/first/data                                                  
+PS C:\Users\ienjo\netology> docker exec -it first_node touch /var/first/data/test.txt
+PS C:\Users\ienjo\netology> docker exec -it second_node ls /var/second/data/         
+test.txt  test2.txt
+PS C:\Users\ienjo\netology> docker exec -it second_node cat /var/second/data/text2.txt
+cat: /var/second/data/text2.txt: No such file or directory
+PS C:\Users\ienjo\netology> docker exec -it second_node cat /var/second/data/test2.txt
+HEllo
+PS C:\Users\ienjo\netology> docker ps -a
+CONTAINER ID   IMAGE        COMMAND                  CREATED         STATUS         PORTS     NAMES
+b0390e2f34fa   node:15.14   "docker-entrypoint.s…"   8 minutes ago   Up 8 minutes             second_node
+3e6cc2a0e85e   node:15.14   "docker-entrypoint.s…"   8 minutes ago   Up 8 minutes             first_node
+PS C:\Users\ienjo\netology> docker stop first_node second_node
+first_node
+second_node
+PS C:\Users\ienjo\netology> docker ps -a
+CONTAINER ID   IMAGE        COMMAND                  CREATED         STATUS                       PORTS     NAMES
+b0390e2f34fa   node:15.14   "docker-entrypoint.s…"   8 minutes ago   Exited (137) 3 seconds ago             second_node
+3e6cc2a0e85e   node:15.14   "docker-entrypoint.s…"   8 minutes ago   Exited (137) 3 seconds ago             first_node
+PS C:\Users\ienjo\netology> docker rm first_node second_node  
+first_node
+second_node
+PS C:\Users\ienjo\netology> docker ps -a
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+PS C:\Users\ienjo\netology> docker rmi node -f
+Error: No such image: node
+PS C:\Users\ienjo\netology> docker rmi node:15.14 -f
+Untagged: node:15.14
+Untagged: node@sha256:608bba799613b1ebf754034ae008849ba51e88b23271412427b76d60ae0d0627
+Deleted: sha256:3d3f41722daf1a77c34d6eade6676bbffa2d6a2a21095de2ab0c427a5c942fc9
+Deleted: sha256:601382991a159cfc5013ad973158f30b7b7a913e8d7e547b3456deab3ad98022
+Deleted: sha256:d5db49eecae8c02c9ea3a79f89c43ded9162bac118a0302a7b514d0df82aa112
+Deleted: sha256:a2c1973858d0aad3de0927294602b17c8ef9050c30e0f461e0868997a08552a4
+Deleted: sha256:a0153172017a08a521a8be971ca4dcb5fbc4b7227642c12bbb2da6265bd66b50
+Deleted: sha256:f1123940e954d335d91b52a40fab4f8144f38ff113ade7d65663071d0f06da6f
+Deleted: sha256:f1f4fbb0e7e6e0ce2d9eae1e577f9f6df0a719dd874bff00b2d08895c75c297d
+Deleted: sha256:1eb455ab6d45fdbbd90fccff791ffa228080c052acf464f8da1b1d78650bd706
+Deleted: sha256:1dbe832a694971a925d7d216f49b700c95f402bd72288f9d37eceb1d59dcf72d
+Deleted: sha256:2f4ee6a2e1b5dfb9236cd262e788f9d39109242ca27a4aacb583c8af66ec3ff7
+PS C:\Users\ienjo\netology> docker images           
+REPOSITORY   TAG       IMAGE ID   CREATED   SIZE
+PS C:\Users\ienjo\netology> 
