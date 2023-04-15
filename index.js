@@ -5,7 +5,6 @@ const PORT = process.env.PORT || 3000;
 const app = express();
 
 // middleware
-// const logger = require('./middleware/logger');
 const error404 = require('./middleware/err-404');
 
 
@@ -16,7 +15,7 @@ const user = require('./routes/user');
 const api = require('./routes/api');
 
 app.use(express.urlencoded());
-app.set("view engine", "ejs");
+app.set('view engine', 'ejs');
 
 
 // app.use(logger);
@@ -26,8 +25,6 @@ app.use('/', indexRouter);
 app.use('/books', books);
 app.use('/user', user);
 app.use('/api', api);
-
-
 
 
 app.use(error404);

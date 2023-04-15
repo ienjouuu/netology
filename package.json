@@ -32,6 +32,8 @@
   },
   "devDependencies": {
     "dotenv": "^16.0.3",
+    "eslint": "^8.38.0",
+    "eslint-config-google": "^0.14.0",
     "nodemon": "^2.0.21"
   },
   "scripts": {
