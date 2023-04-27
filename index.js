@@ -1,8 +1,12 @@
 #! /usr/bin/env node
 
 const express = require('express');
+const session = require('express-session');
 const PORT = process.env.PORT || 3000;
-const mongoose = require('mongoose');
+// const mongoose = require('mongoose');
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+const db = require('./db');
 
 // middleware
 const error404 = require('./middleware/err-404');
@@ -21,21 +25,22 @@ app.set('view engine', 'ejs');
 
 app.use('/', indexRouter);
 app.use('/books', books);
-app.use('/user', user);
+app.use('/api/user', user);
 app.use('/api', api);
 
-async function start(PORT, HostDB) {
-  try {
-    await mongoose.connect(HostDB);
-    app.listen(PORT);
-  } catch (e) {
-    console.log(e);
-  }
-}
+// async function start(PORT, HostDB) {
+//   try {
+//     await mongoose.connect(HostDB);
+//     app.listen(PORT);
+//   } catch (e) {
+//     console.log(e);
+//   }
+// }
 
-const HostDB = 'mongodb://localhost:27017/books'; //  process.env.HostDB
+// const HostDB = 'mongodb://localhost:27017/books'; //  process.env.HostDB
 
-start(PORT, HostDB);
+// start(PORT, HostDB);
 
 app.use(error404);
+app.listen(PORT);
 
