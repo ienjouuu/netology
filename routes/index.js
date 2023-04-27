@@ -1,10 +1,11 @@
 const express = require('express');
 const router = express.Router();
 
-router.get('/', (req, res) => {
-  res.render('index', {
-    title: 'Главная',
+router
+  .route('/')
+  .get((req, res) => {
+    res.render('passport/home', {user: req.user});
   });
-});
+
 
 module.exports = router;

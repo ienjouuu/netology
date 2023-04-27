@@ -1,31 +1,50 @@
 const express = require('express');
 const router = express.Router();
+const passport = require('passport');
 
 router
   .route('/login')
   .get((req, res) => {
-    res.status(201);
-    res.json('страница с формой входа / регистрации');
+    res.render('passport/login');
+  })
+  .post(
+    passport.authenticate('local', {failureRedirect: '/api/user/login'}),
+    (req, res) => {
+      console.log('req.user: ', req.user);
+      res.redirect('/');
+    });
+router
+  .route('/me')
+  .get(
+    (req, res, next) => {
+      if (!req.isAuthenticated()) {
+        return res.redirect('/api/user/login');
+      }
+      next();
+    },
+    (req, res) => {
+      res.render('passport/profile', {user: req.user});
+    },
+  );
+router
+  .route('/signup')
+  .get((req, res) => {
+    res.render('passport/signup');
   })
   .post((req, res) => {
     res.status(201);
-    const loginObj = {
-      id: 1,
-      mail: 'test@mail.ru',
-    };
-    res.json(loginObj);
+    res.json('Пользователь зарегистрирован ...частично :)');
   });
 router
-  .route('/me')
+  .route('/logout')
   .get((req, res) => {
-    res.status(201);
-    res.json('страница профиля');
+    req.logout(function(err) {
+      if (err) {
+        return err;
+      }
+    });
+    res.redirect('/');
   });
-router
-  .route('/signup')
-  .post((req, res) => {
-    res.status(201);
-    res.json('signup');
-  });
+
 
 module.exports = router;
