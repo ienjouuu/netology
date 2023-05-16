@@ -1,65 +1,53 @@
-#! /usr/bin/env node
-
 const express = require('express');
-const session = require('express-session');
-const PORT = process.env.PORT || 3000;
-const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
-const db = require('./db');
-// middleware
-const error404 = require('./middleware/err-404');
+const http = require('http');
+const socketIO = require('socket.io');
+
+const app = express();
+const server = http.Server(app);
+const io = socketIO(server);
+
+io.on('connection', (socket) => {
+  const {id} = socket;
+  console.log(`Socket connected: ${id}`);
+
+  // сообщение себе
+  socket.on('message-to-me', (msg) => {
+    msg.type = 'me';
+    socket.emit('message-to-me', msg);
+  });
+
+  // сообщение для всех
+  socket.on('message-to-all', (msg) => {
+    msg.type = 'all';
+    socket.broadcast.emit('message-to-all', msg);
+    socket.emit('message-to-all', msg);
+  });
+
+  // работа с комнатами
+  const {roomName} = socket.handshake.query;
+  console.log(`Socket roomName: ${roomName}`);
+  socket.join(roomName);
+  socket.on('message-to-room', (msg) => {
+    msg.type = `room: ${roomName}`;
+    socket.to(roomName).emit('message-to-room', msg);
+    socket.emit('message-to-room', msg);
+  });
+
+  socket.on('disconnect', () => {
+    console.log(`Socket disconnected: ${id}`);
+  });
+});
+
 // routes
 const indexRouter = require('./routes/index');
 const books = require('./routes/books');
 const user = require('./routes/user');
 const api = require('./routes/api');
 
-const verify = (username, password, done) => {
-  db.users.findByUsername(username, (err, user) => {
-    if (err) {
-      return done(err);
-    }
-    if (!user) {
-      return done(null, false);
-    }
-
-    if ( !db.users.verifyPassword(user, password)) {
-      return done(null, false);
-    }
-
-    return done(null, user);
-  });
-};
-
-const options = {
-  usernameField: 'username',
-  passwordField: 'password',
-};
-
-passport.use('local', new LocalStrategy(options, verify));
-
-passport.serializeUser((user, cb) => {
-  cb(null, user.id);
-});
-
-passport.deserializeUser( (id, cb) => {
-  db.users.findById(id, (err, user) => {
-    if (err) {
-      return cb(err);
-    }
-    cb(null, user);
-  });
-});
-
-const app = express();
-
-app.set('view engine', 'ejs');
 
 app.use(express.json());
 app.use(express.urlencoded());
-app.use(session({secret: 'SECRET'}));
-app.use(passport.initialize());
-app.use(passport.session());
+app.set('view engine', 'ejs');
 
 app.use('/', indexRouter);
 app.use('/books', books);
@@ -67,6 +55,5 @@ app.use('/api/user', user);
 app.use('/api', api);
 
 
-app.use(error404);
-app.listen(PORT);
-
+const PORT = process.env.PORT || 3000;
+server.listen(PORT);

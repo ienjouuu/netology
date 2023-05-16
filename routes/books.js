@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 const upload = require('../middleware/upload');
 const fs = require('fs');
+const path = require('path');
 
 const {v4: uuid} = require('uuid');
 
@@ -29,6 +30,7 @@ const stor = {
 router
   .route('/')
   .get((req, res) => {
+    res.sendFile(path.resolve(__dirname, 'index.html'));
     const {book} = stor;
     res.render('books/index', {
       title: 'Книги',
